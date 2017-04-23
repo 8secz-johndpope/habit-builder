@@ -1,17 +1,18 @@
 #! /usr/bin/env node
+require('dotenv').config()
 
-var _           = require('lodash');
-var chalk       = require('chalk');
-var clear       = require('clear');
-var figlet      = require('figlet');
-var Preferences = require('preferences');
-// var inquirer    = require('inquirer');
-// var fs          = require('fs');
+const _           = require('lodash');
+const chalk       = require('chalk');
+const figlet      = require('figlet');
+const Preferences = require('preferences');
+const settings    = require('./settings.js');
 
-var userArgs = process.argv.slice(2);
-var firstArg = userArgs[0];
-clear();
-firstArg = chalk.blue.underline.bold(firstArg);
+// Clear CLI screen
+require('clear')();
+
+// parse Arguments
+const userArgs = require('minimist')(process.argv.slice(2));
+const firstTime = require('./utilities/is-first-time-usage.js');
 
 figlet('Habit Builder', function(err, data) {
     if (err) {
@@ -21,8 +22,32 @@ figlet('Habit Builder', function(err, data) {
     }
     data = chalk.red(data);
     console.log(data);
-    console.log('For the first time using Habit Builder, ' +
-            'please take time to read the user guide and ' +
-            'setup Firebase account for storing your data.');
-    console.log('\n\n\n');
+    firstTime.isFirstTimeUsage().then(result => {
+      console.log(result);
+      if (result == true) {
+        firstTime.informForTheFirstTime();
+        process.exit(); // break the process
+      } else {
+        // Conitnue
+      };
+    });
 });
+
+
+// const admin = require("firebase-admin");
+
+// const serviceAccount = require(process.env.HABIT_BUILDER_FIREBASE_ADMIN_SDK_FILE_PATH);
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://habit-builder-9d122.firebaseio.com"
+// });
+
+// TODO: Import Firebase Admin SDK serviceAccountKey
+// Place Your serviceAccountKey.json path into .env
+// Follow the instruction from https://firebase.google.com/docs/admin/setup to create
+// a serviceAccountKey.
+
+// https://firebase.google.com/docs/auth/admin/manage-users
+// Create a User in the first-time usage.
+// habit-builder -u viphat@gmail.com -p 12345678 

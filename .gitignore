@@ -1,1 +1,3 @@
 node_modules
+habit-builder-*.json
+.env
