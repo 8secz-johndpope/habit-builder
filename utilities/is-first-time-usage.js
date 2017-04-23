@@ -1,19 +1,17 @@
-const path = require('path');
-const fs = require('fs');
-const readline = require('readline');
+const fs          = require('fs');
+const readline    = require('readline');
 const settings    = require('../settings.js');
-const envFilePath = path.join(settings.PROJECT_DIR, '.env');
-const lineReader = require('line-reader');
+const lineReader  = require('line-reader');
 
 function checkingEnvFile() {
-  let myMap = new Map();
-  myMap.set('HABIT_BUILDER_FIREBASE_ADMIN_SDK_FILE_PATH', 1);
-  myMap.set('USERNAME', 2);
-  myMap.set('ACCESS_TOKEN', 3);
+  let myMap = new Map(); // ES6 Map data structure
+  myMap.set('HB_FIREBASE_SDK_FILE_PATH', 1);
+  myMap.set('HB_EMAIL', 2);
+  myMap.set('HB_ACCESS_TOKEN', 3);
   const sumOfMyMap = 6;
   let sum = 0;
   return new Promise((resolve, reject) => {
-    lineReader.eachLine(envFilePath, (line, last) => {
+    lineReader.eachLine(settings.ENVIRONMENT_FILE_PATH, (line, last) => {
       if (line) {
         let val = myMap.get(line.split('=')[0]);
         if (typeof val == 'number') {
@@ -36,20 +34,17 @@ function isFirstTimeUsage() {
   // Step 1: Check if .env exists?
   // Step 2: Read .env file
   // Step 3: Check if some environment variables haven't have values?
-  // Step 3a: HABIT_BUILDER_FIREBASE_ADMIN_SDK_FILE_PATH
-  // Step 3b: USERNAME
-  // Step 3c: ACCESS_TOKEN
+  // Step 3a: HB_FIREBASE_SDK_FILE_PATH
+  // Step 3b: HB_EMAIL
+  // Step 3c: HB_ACCESS_TOKEN
   // Returns true/false
   
   return new Promise((resolve, reject) => {
-    fs.stat(envFilePath, (err, stats) => {
+    fs.stat(settings.ENVIRONMENT_FILE_PATH, (err, stats) => {
       if (err) {
         // File doesn't exist.
         resolve(true);
-      } else {
-        // fs.readFile(envFilePath, 'utf-8', (err, data) => {
-        //   console.log(data);
-        // });
+      } else {        
         resolve(checkingEnvFile());
       }
     });
@@ -64,6 +59,6 @@ function informForTheFirstTime() {
 }
 
 module.exports = {
-  'isFirstTimeUsage': isFirstTimeUsage,
-  'informForTheFirstTime': informForTheFirstTime
+  isFirstTimeUsage: isFirstTimeUsage,
+  informForTheFirstTime: informForTheFirstTime
 }

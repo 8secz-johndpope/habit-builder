@@ -1,42 +1,52 @@
 #! /usr/bin/env node
 require('dotenv').config()
 
-const _           = require('lodash');
-const chalk       = require('chalk');
-const figlet      = require('figlet');
-const Preferences = require('preferences');
-const settings    = require('./settings.js');
+const _             = require('lodash');
+const Preferences   = require('preferences');
+const settings      = require('./settings.js');
+const onBoarding    = require('./utilities/on-boarding.js');
+const firstTime     = require('./utilities/is-first-time-usage.js');
+const readArgument  = require('./utilities/read-command-line-arguments.js');
+const baseUtilities = require('./utilities/base.js');
+const writeFile     = require('./utilities/write-file.js');
 
 // Clear CLI screen
 require('clear')();
+onBoarding.sayHello();
 
-// parse Arguments
-const userArgs = require('minimist')(process.argv.slice(2));
-const firstTime = require('./utilities/is-first-time-usage.js');
+if (readArgument.help) {
+  // Print Arguments list
+  onBoarding.printArgumentsList().then( result => {
+    process.exit();  
+  });
+}
 
-figlet('Habit Builder', function(err, data) {
-    if (err) {
-        console.log('Something went wrong...');
-        console.dir(err);
-        return;
-    }
-    data = chalk.red(data);
-    console.log(data);
-    firstTime.isFirstTimeUsage().then(result => {
-      console.log(result);
-      if (result == true) {
-        firstTime.informForTheFirstTime();
-        process.exit(); // break the process
+firstTime.isFirstTimeUsage().then(result => {
+  if (result == true) {
+    if (readArgument.email && readArgument.password) {
+      // Sign up Or Sign In
+      if (readArgument.SDKJsonPath) {
+        writeFile.toEnvFile('HB_FIREBASE_SDK_FILE_PATH', readArgument.SDKJsonPath);
       } else {
-        // Conitnue
-      };
-    });
+        if (!process.env.HB_FIREBASE_SDK_FILE_PATH) {
+          throw 'You need to pass SDKJsonPath agrument.';
+        }
+      }
+      writeFile.toEnvFile('HB_EMAIL', readArgument.email);
+      // FIXME - Remove below lines.
+      writeFile.toEnvFile('HB_PASSWORD', readArgument.password);
+    } else { 
+      firstTime.informForTheFirstTime();
+      process.exit(); // break the process  
+    };
+  } else {
+    // Authenticate with Email & Access Token
+    
+  };
 });
-
-
 // const admin = require("firebase-admin");
 
-// const serviceAccount = require(process.env.HABIT_BUILDER_FIREBASE_ADMIN_SDK_FILE_PATH);
+// const serviceAccount = require(process.env.HB_FIREBASE_SDK_FILE_PATH);
 
 // admin.initializeApp({
 //   credential: admin.credential.cert(serviceAccount),

@@ -1,0 +1,5 @@
+Usage: habit-builder [arguments]
+  --email=email                         User's Email
+  --password=password                   User's password
+  --SDKJsonPath=/path/to/file.json      Path to firebaseAdminSDK.json
+  --help                                Show this message
