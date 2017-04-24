@@ -16,6 +16,7 @@
     "url": "git@github.com:viphat/habit-builder.git"
   },
   "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
     "chalk": "^1.1.3",
     "clear": "0.0.1",
     "dotenv": "^4.0.0",
