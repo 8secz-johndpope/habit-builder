@@ -8,7 +8,9 @@ function checkingEnvFile() {
   myMap.set('HB_FIREBASE_SDK_FILE_PATH', 1);
   myMap.set('HB_EMAIL', 2);
   myMap.set('HB_ACCESS_TOKEN', 3);
-  const sumOfMyMap = 6;
+  myMap.set('HB_API_KEY', 5);
+  myMap.set('HB_MESSAGING_SENDER_ID', 8);
+  const sumOfMyMap = 19;
   let sum = 0;
   return new Promise((resolve, reject) => {
     lineReader.eachLine(settings.ENVIRONMENT_FILE_PATH, (line, last) => {
