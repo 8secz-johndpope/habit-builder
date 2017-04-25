@@ -7,7 +7,7 @@ function checkingEnvFile() {
   let myMap = new Map(); // ES6 Map data structure
   myMap.set('HB_FIREBASE_SDK_FILE_PATH', 1);
   myMap.set('HB_EMAIL', 2);
-  myMap.set('HB_ACCESS_TOKEN', 3);
+  myMap.set('HB_PASSWORD', 3);
   myMap.set('HB_API_KEY', 5);
   myMap.set('HB_MESSAGING_SENDER_ID', 8);
   const sumOfMyMap = 19;
@@ -38,7 +38,9 @@ function isFirstTimeUsage() {
   // Step 3: Check if some environment variables haven't have values?
   // Step 3a: HB_FIREBASE_SDK_FILE_PATH
   // Step 3b: HB_EMAIL
-  // Step 3c: HB_ACCESS_TOKEN
+  // Step 3c: HB_PASSWORD
+  // Step 3c: HB_API_KEY
+  // Step 3c: HB_MESSAGING_SENDER_ID
   // Returns true/false
   
   return new Promise((resolve, reject) => {

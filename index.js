@@ -20,7 +20,7 @@ let firebase = firebaseClient.firebase;
 
 if (readArgument.help) {
   // Print Arguments list
-  onBoarding.printArgumentsList().then( result => {
+  onBoarding.printArgumentsList().then( response => {
     process.exit();  
   });
 }
@@ -37,37 +37,46 @@ function handleEnvFile() {
   writeFile.toEnvFile('HB_PASSWORD', readArgument.password);
 }
 
-function authenticateUser() {
+function authenticateUser(email, password) {
   // Sign up Or Sign In
-  User.getUserByEmail(readArgument.email).then( (userRecord) => {
-    // Sign In
-    User.signIn(readArgument.email, readArgument.password).then((res) => {
-      console.log('Sign in successful.');
-      console.log(User.getCurrentUser());
-      process.exit();
+  return new Promise( (resolve, reject) => {
+    User.getUserByEmail(email).then( (userRecord) => {
+      // Sign In
+      User.signIn(email, password).then((res) => {
+        resolve(User.getCurrentUser());
+      });
+      
+    }).catch( (err) => {
+      if (err.errorInfo.code === 'auth/user-not-found'){
+        // Sign Up
+        User.createUser(email, password);
+      }
+      reject(err);
     });
-    
-  }).catch( (err) => {
-    if (err.errorInfo.code === 'auth/user-not-found'){
-      // Sign Up
-      User.createUser(readArgument.email, readArgument.password);
-    } else {
-      process.exit();
-    }
-  });
+  })
 }
 
-firstTime.isFirstTimeUsage().then(result => {
-  if (result == true) {
+firstTime.isFirstTimeUsage().then( response => {
+  if (response == true) {
     if (readArgument.email && readArgument.password) {
       handleEnvFile();
-      authenticateUser();
+      User.getUserByEmail(readArgument.email).then( (userRecord) => {
+        console.log('We have updated your Email & Password into Enviroment File.\n' + 
+                    'So that Habit Builder is available to use next time.');
+        process.exit();
+      }).catch( (err) => {
+        User.createUser(readArgument.email, readArgument.password);
+      })
     } else { 
       firstTime.informForTheFirstTime();
       process.exit(); // break the process  
     };
   } else {
-    // Authenticate with Email & Access Token
-    
+    // Sign In User Using .env file
+    let email = process.env.HB_EMAIL
+    let password = process.env.HB_PASSWORD
+    authenticateUser(email, password).then( (response) => { 
+
+    });
   };
 });

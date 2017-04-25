@@ -24,8 +24,8 @@ function createUser(email, password) {
     password: password,
     emailVerified: true
   }).then( (userRecord) => {
-    console.log(userRecord);
-    return signIn(email, password);
+    console.log('Sign Up successful.');
+    process.exit();
   }).catch ( (err) => {
     console.log(err);
     process.exit();
