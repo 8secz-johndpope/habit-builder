@@ -10,6 +10,7 @@ const readArgument      = require('./utilities/read-command-line-arguments.js');
 const baseUtilities     = require('./utilities/base.js');
 const writeFile         = require('./utilities/write-file.js');
 const User              = require('./firebase/user.js');
+const Habit             = require('./firebase/user.js');
 const firebaseClient    = require('./firebase/firebase-client.js');
 
 // Clear CLI screen
@@ -26,11 +27,11 @@ if (readArgument.help) {
 }
 
 function handleEnvFile() {
-  if (readArgument.SDKJsonPath) {
-    writeFile.toEnvFile('HB_FIREBASE_SDK_FILE_PATH', readArgument.SDKJsonPath);
+  if (readArgument.json) {
+    writeFile.toEnvFile('HB_FIREBASE_SDK_FILE_PATH', readArgument.json);
   } else {
     if (!process.env.HB_FIREBASE_SDK_FILE_PATH) {
-      throw 'You need to pass SDKJsonPath agrument.';
+      throw 'You need to pass json agrument.';
     }
   }
   writeFile.toEnvFile('HB_EMAIL', readArgument.email);
@@ -76,7 +77,8 @@ firstTime.isFirstTimeUsage().then( response => {
     let email = process.env.HB_EMAIL
     let password = process.env.HB_PASSWORD
     authenticateUser(email, password).then( (response) => { 
-
+      console.log('Login Successfully!');
+      process.exit();
     });
   };
 });

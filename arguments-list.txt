@@ -1,5 +1,13 @@
 Usage: habit-builder [arguments]
   --email=email                         User's Email
   --password=password                   User's password
-  --SDKJsonPath=/path/to/file.json      Path to firebaseAdminSDK.json
+  --json=/path/to/file.json             Path to firebaseAdminSDK.json
   --help                                Show this message
+  -l                                    Show Habits list of currentUser
+  -a $habitName                         Add new Habit
+  -h $habit -v                          Show the $habit
+  -h $habit --del                       Delete $habit
+  -h $habit -t                          I did it!
+  -h $habit -t -d x                     I did it x days ago
+  -h $habit --fi                        Mark $habit as finished
+  -h $habit --uf                        Mark $habit as unfinished
