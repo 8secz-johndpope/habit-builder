@@ -10,12 +10,3 @@ admin.initializeApp({
 module.exports = {
   admin: admin
 }
-
-// TODO: Import Firebase Admin SDK serviceAccountKey
-// Place Your serviceAccountKey.json path into .env
-// Follow the instruction from https://firebase.google.com/docs/admin/setup to create
-// a serviceAccountKey.
-
-// https://firebase.google.com/docs/auth/admin/manage-users
-// Create a User in the first-time usage.
-// habit-builder --email viphat@gmail.com --password 123456

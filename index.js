@@ -12,6 +12,7 @@ const writeFile         = require('./utilities/write-file.js');
 const User              = require('./firebase/user.js');
 const Habit             = require('./firebase/user.js');
 const firebaseClient    = require('./firebase/firebase-client.js');
+const main              = require('./app/main.js')
 
 // Clear CLI screen
 require('clear')();
@@ -78,7 +79,7 @@ firstTime.isFirstTimeUsage().then( response => {
     let password = process.env.HB_PASSWORD
     authenticateUser(email, password).then( (response) => { 
       console.log('Login Successfully!');
-      process.exit();
+      main.process();
     });
   };
 });

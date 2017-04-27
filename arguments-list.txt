@@ -3,11 +3,11 @@ Usage: habit-builder [arguments]
   --password=password                   User's password
   --json=/path/to/file.json             Path to firebaseAdminSDK.json
   --help                                Show this message
-  -l                                    Show Habits list of currentUser
-  -a $habitName                         Add new Habit
-  -h $habit -v                          Show the $habit
-  -h $habit --del                       Delete $habit
-  -h $habit -t                          I did it!
-  -h $habit -t -d x                     I did it x days ago
-  -h $habit --fi                        Mark $habit as finished
-  -h $habit --uf                        Mark $habit as unfinished
+  --list                                Show Habits list of currentUser
+  --add $habitName                      Add new Habit
+  --habit $habit --verbose              Show the $habit
+  --habit $habit --del                  Delete $habit
+  --habit $habit --tick                I did it!
+  --habit $habit --tick -days=x         I did it x days ago
+  --habit $habit --finished            Mark $habit as finished
+  --habit $habit --unfinished           Mark $habit as unfinished
