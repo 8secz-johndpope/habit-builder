@@ -8,8 +8,19 @@ function process() {
   if (readArgument.add) {
     return Habit.createHabit(readArgument.add);
   }
-  if (readArgument.del) {
-    return Habit.deleteHabit(readArgument.habit);
+  if (readArgument.habit) {
+    if (readArgument.del) {
+      return Habit.deleteHabit(readArgument.habit);
+    }
+    if (readArgument.show) {
+      
+    }
+    if (readArgument.tick) {
+      return Habit.loggingHabit(readArgument.habit, readArgument.days);
+    }
+  } else {
+    console.log('Argument Error!');
+    process.exit();    
   }
 }
 
