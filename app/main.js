@@ -13,7 +13,7 @@ function process() {
       return Habit.deleteHabit(readArgument.habit);
     }
     if (readArgument.show) {
-      
+      return Habit.showHabit(readArgument.habit);
     }
     if (readArgument.tick) {
       return Habit.loggingHabit(readArgument.habit, readArgument.days);

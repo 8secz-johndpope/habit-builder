@@ -5,7 +5,8 @@ module.exports = {
   email: userArgs.email,
   password: userArgs.password,
   help: userArgs.help,
-  json: userArgs.json,
+  jsonFilePath: userArgs.jsonFilePath,
+  apiKey: userArgs.apiKey,
   list: userArgs.list,     // List Habits
   add: userArgs.add,       // Add a Habit
   del: userArgs.del,       // Delete a Habit

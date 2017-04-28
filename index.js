@@ -28,13 +28,22 @@ if (readArgument.help) {
 }
 
 function handleEnvFile() {
-  if (readArgument.json) {
-    writeFile.toEnvFile('HB_FIREBASE_SDK_FILE_PATH', readArgument.json);
+  if (readArgument.jsonFilePath) {
+    writeFile.toEnvFile('HB_FIREBASE_SDK_FILE_PATH', readArgument.jsonFilePath);
   } else {
     if (!process.env.HB_FIREBASE_SDK_FILE_PATH) {
-      throw 'You need to pass json agrument.';
+      throw 'You need to pass jsonFilePath argument.';
     }
   }
+
+  if (readArgument.apiKey) {
+    writeFile.toEnvFile('HB_API_KEY', readArgument.apiKey);
+  } else {
+    if (!process.env.HB_API_KEY) {
+      throw 'You need to pass apiKey argument.';
+    }
+  }
+
   writeFile.toEnvFile('HB_EMAIL', readArgument.email);
   writeFile.toEnvFile('HB_PASSWORD', readArgument.password);
 }

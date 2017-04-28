@@ -1,19 +1,3 @@
-// Data Schema
-// habits: {
-//   '$habit': {
-//     uid: $uid,
-//     name: 'Read at least 30 pages of books everyday',
-//     days_in_a_row: 0,
-//     until: 1491350400000,
-//     logs: {
-//       '1491350400000': {
-//          did_it: true,
-//          updated_at: $updated_at 
-//        }
-//     }
-//   }
-// }
-
 const firebaseClient    = require('../firebase/firebase-client.js');
 const User              = require('../firebase/user.js');
 const moment            = require('moment');
@@ -103,6 +87,26 @@ function updatingDaysInRow(habitKey) {
   });
 }
 
+function showHabit(habitKey) {
+  ref = database.ref('/habits/' + habitKey)
+  ref.once('value', (snapshot) => {
+    let habit = snapshot.val();
+    let output = '\n\n';
+    output += 'Showing ' + habitKey + ' - ' + habit.name + '\n';
+    output += 'Until ' + moment(habit.until).format('DD/MM/YYYY') + 
+              ", you've done it for " + habit.days_in_a_row.toString() + ' days in a row.\n';
+    output += '\nDetails:\n';
+    _.each(Object.keys(habit.logs), (log) => {
+      output += moment(parseInt(log)).format('DD/MM/YYYY') + '\n';
+    });
+    output += '\n';
+    output = chalk.bold.magenta(output);
+    console.log(output);
+    console.log(chalk.bold.blue('Keep Going On!\n'));
+    process.exit();
+  });
+}
+
 function updateHabit(habitKey, until, days_in_a_row) {
   ref = database.ref('/habits/' + habitKey)
   ref.once('value', (snapshot) => {
@@ -167,8 +171,9 @@ function loggingHabit(habitKey, days = 0) {
 }
 
 module.exports = {
-  createHabit: createHabit,
-  listHabits: listHabits,
-  deleteHabit: deleteHabit,
-  loggingHabit: loggingHabit
+  createHabit:    createHabit,
+  listHabits:     listHabits,
+  deleteHabit:    deleteHabit,
+  loggingHabit:   loggingHabit,
+  showHabit:      showHabit
 }
