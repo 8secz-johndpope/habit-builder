@@ -8,7 +8,8 @@ Small Node.js CLI tool that help you tracking and forming a Habit (Or quitting a
 2. Install dependencies by execute `npm install`
 3. Setup Your Firebase Account.
 4. Generate and download your firebase-admin-sdk.json from Firebase Dashboard.
-5. Setup Project for the 1st time.
+5. Execute `npm link`
+6. Setup Project for the 1st time.
 
 ### Setup Project for the 1st time
 
