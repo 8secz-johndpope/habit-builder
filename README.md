@@ -1,8 +1,8 @@
-### INTRO
+### Introduction
 
 Small Node.js CLI tool that help you tracking and forming a Habit (Or quitting a bad habit) - Your Data will be stored on your firebase's database. So you can used it on different computer.
 
-### USAGE
+### Usage
 
 1. Clone this project 
 2. Install dependencies by execute `npm install`
@@ -16,7 +16,9 @@ Small Node.js CLI tool that help you tracking and forming a Habit (Or quitting a
 habit-builder --email=$email --password=$password --jsonFilePath=/path/to/file.json --apiKey=$apiKey
 ```
 
-with `jsonFilePath` is path to your firebase-admin-sdk.json file and `apiKey` is your Project's API Key from Firebase.
+- `email` & `password` is used for Firebase Email & Password Authentication.
+- `jsonFilePath` is path to your firebase-admin-sdk.json file.
+- `apiKey` is your Project's API Key from Firebase. 
 
 #### Arguments List
 

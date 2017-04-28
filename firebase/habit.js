@@ -71,7 +71,7 @@ function updatingDaysInRow(habitKey) {
     let until = _.last(dateKeys);
     let days_in_a_row = 1;
     if (dateKeys.length == 1) {
-      return updateHabit(habitKey, until, days_in_a_row);
+      return updateHabit(habitKey, until, days_in_a_row, dateKeys.length);
     }
     let iterator = dateKeys.length - 2;
     do {
@@ -83,7 +83,7 @@ function updatingDaysInRow(habitKey) {
         iterator -= 1;
       }
     } while (iterator >= 0)
-    return updateHabit(habitKey, until, days_in_a_row);
+    return updateHabit(habitKey, until, days_in_a_row, dateKeys.length);
   });
 }
 
@@ -107,7 +107,7 @@ function showHabit(habitKey) {
   });
 }
 
-function updateHabit(habitKey, until, days_in_a_row) {
+function updateHabit(habitKey, until, days_in_a_row, dateKeysLength) {
   ref = database.ref('/habits/' + habitKey)
   ref.once('value', (snapshot) => {
     let updates = {}
@@ -123,15 +123,19 @@ function updateHabit(habitKey, until, days_in_a_row) {
       console.log('Updated ' + habitKey);
       let output = '';
       if (days_in_a_row <= 1) {
-        output = chalk.bold.blue("Begin Again? Don't give up!")
+        if (dateKeysLength == 1) {
+          output = chalk.bold.blue("Good Job! Big Journeys begin with small steps!");
+        } else {
+          output = chalk.bold.blue("Begin Again? Don't give up!");
+        }
       } else if (days_in_a_row <= 5) {
-        output = chalk.bold.green('You did it! Come on! You can do it!')
+        output = chalk.bold.green('You did it! Come on! You can do it!');
       } else if (days_in_a_row <= 10) {
-        output = chalk.bold.yellow('Well done! Keep fighting!')
+        output = chalk.bold.yellow('Well done! Keep fighting!');
       } else if (days_in_a_row <= 15) {
-        output = chalk.bold.magenta('Wow! Do the impossible!')
+        output = chalk.bold.magenta('Wow! Do the impossible!');
       } else {
-        output = chalk.bold.red("You are so brave! I'm so proud of you!")
+        output = chalk.bold.red("You are so brave! I'm so proud of you!");
       }
       console.log('\n\n');
       console.log(output);
