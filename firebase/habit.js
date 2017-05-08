@@ -47,7 +47,7 @@ function listHabits() {
 }
 
 function deleteHabit(habitKey) {
-  if (habitKey === null || habitKey == undefined) {
+  if (habitKey === null || habitKey === undefined) {
     console.log('Argument Error - Need to provide --habit $habitKey as well.')
     return process.exit();
   }
@@ -59,6 +59,26 @@ function deleteHabit(habitKey) {
     console.log('Error: ' + err);    
     process.exit();
   });
+}
+
+function deleteLog(habitKey, logKey) {
+  if (habitKey === null || habitKey === undefined) {
+    console.log('Argument Error - Need to provide --habit $habitKey as well.')
+    return process.exit();
+  }
+
+  if (logKey === null || logKey === undefined) {
+    console.log('Argument Error - Need to provide --log $logKey as well.')
+    return process.exit();
+  }
+
+  database.ref('/habits/' + habitKey + '/logs/' + logKey).remove().then( (resp) => {
+    console.log('Removed Successfully!');
+    return updatingDaysInRow(habitKey);
+  }).catch( (err) =>{
+    console.log('Error: ' + err);    
+    process.exit();
+  })
 }
 
 function updatingDaysInRow(habitKey) {
@@ -76,7 +96,8 @@ function updatingDaysInRow(habitKey) {
     let iterator = dateKeys.length - 2;
     do {
       let xDate = moment(parseInt(until)).subtract(days_in_a_row, 'days').valueOf();
-      if (xDate != parseInt(dateKeys[iterator])) {
+      let xxDate = moment(parseInt(until)).subtract(days_in_a_row + 1, 'days').valueOf();
+      if (xDate != parseInt(dateKeys[iterator]) && xxDate != parseInt(dateKeys[iterator])) {
         break;
       } else {
         days_in_a_row += 1;
@@ -97,7 +118,8 @@ function showHabit(habitKey) {
               ", you've done it for " + habit.days_in_a_row.toString() + ' days in a row.\n';
     output += '\nDetails:\n';
     _.each(Object.keys(habit.logs), (log) => {
-      output += moment(parseInt(log)).format('DD/MM/YYYY') + '\n';
+      output += moment(parseInt(log)).format('DD/MM/YYYY');
+      output += ' - ' + log + '\n';
     });
     output += '\n';
     output = chalk.bold.magenta(output);
@@ -179,5 +201,6 @@ module.exports = {
   listHabits:     listHabits,
   deleteHabit:    deleteHabit,
   loggingHabit:   loggingHabit,
+  deleteLog:      deleteLog,
   showHabit:      showHabit
 }

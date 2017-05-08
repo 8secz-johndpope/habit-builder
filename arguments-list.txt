@@ -9,4 +9,5 @@ Usage: habit-builder [arguments]
   --habit=$habit --del                  Delete $habit
   --habit=$habit --tick                 I did it!
   --habit=$habit --tick -days=x         I did it x days ago
+  --habit=$habit --remove=$logKey       Remove $logKey of $habit habit
   

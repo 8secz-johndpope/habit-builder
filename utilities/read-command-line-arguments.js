@@ -13,5 +13,6 @@ module.exports = {
   show: userArgs.show,     // Show a Habit
   habit: userArgs.habit,   // Habit
   days: userArgs.days,     // X-Days-Ago
-  tick: userArgs.tick     // I Did it (Tick It)
+  tick: userArgs.tick,     // I Did it (Tick It)
+  remove: userArgs.remove  // Remove a Log
 }

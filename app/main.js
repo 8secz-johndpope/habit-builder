@@ -12,6 +12,9 @@ function process() {
     if (readArgument.del) {
       return Habit.deleteHabit(readArgument.habit);
     }
+    if (readArgument.remove) {
+      return Habit.deleteLog(readArgument.habit, readArgument.remove);
+    }
     if (readArgument.show) {
       return Habit.showHabit(readArgument.habit);
     }
