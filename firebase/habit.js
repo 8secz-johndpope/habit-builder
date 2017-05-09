@@ -94,12 +94,15 @@ function updatingDaysInRow(habitKey) {
       return updateHabit(habitKey, until, days_in_a_row, dateKeys.length);
     }
     let iterator = dateKeys.length - 2;
+    let checkingDate = until;
+    let gap = 1;
     do {
-      let xDate = moment(parseInt(until)).subtract(days_in_a_row, 'days').valueOf();
-      let xxDate = moment(parseInt(until)).subtract(days_in_a_row + 1, 'days').valueOf();
-      if (xDate != parseInt(dateKeys[iterator]) && xxDate != parseInt(dateKeys[iterator])) {
+      let yesterday = moment(parseInt(checkingDate)).subtract(1, 'days').valueOf();
+      let twoDaysAgo = moment(parseInt(checkingDate)).subtract(2, 'days').valueOf();
+      if (parseInt(dateKeys[iterator]) != yesterday && parseInt(dateKeys[iterator]) != twoDaysAgo) {
         break;
       } else {
+        checkingDate = dateKeys[iterator];
         days_in_a_row += 1;
         iterator -= 1;
       }
